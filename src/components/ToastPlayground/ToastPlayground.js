@@ -12,10 +12,15 @@ function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
   // const [showToast, setShowToast] = React.useState(false);
-  const [toasts, setToasts] = React.useState([
-    {id: 1, variant: "notice", message: "Example notice toast"},
-    {id: 2, variant: 'error', message: "Example error toast"}
-  ]);
+  const [toasts, setToasts] = React.useState([]);
+
+  const addToast = ({ variant, message }) => {
+    const newToasts = [
+      ...toasts,
+      { id: crypto.randomUUID(), variant, message },
+    ];
+    setToasts(newToasts);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -30,7 +35,7 @@ function ToastPlayground() {
         </Toast>
       )} */}
 
-      <ToastShelf toasts={toasts} setToasts={setToasts}/>
+      <ToastShelf toasts={toasts} setToasts={setToasts} />
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -77,7 +82,15 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button onClick={(e) => setShowToast(true)}>Pop Toast!</Button>
+            <Button
+              onClick={(e) => {
+                setMessage('');
+                setVariant(VARIANT_OPTIONS[0])
+                addToast({ message, variant });
+              }}
+            >
+              Pop Toast!
+            </Button>
           </div>
         </div>
       </div>
