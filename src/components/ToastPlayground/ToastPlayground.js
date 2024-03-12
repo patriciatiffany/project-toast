@@ -1,7 +1,8 @@
 import React from "react";
 
 import Button from "../Button";
-import Toast from "../Toast";
+// import Toast from "../Toast";
+import ToastShelf from "../ToastShelf";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -10,13 +11,12 @@ const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
-  const [showToast, setShowToast] = React.useState(false);
+  // const [showToast, setShowToast] = React.useState(false);
+  const [toasts, setToasts] = React.useState([
+    {id: 1, variant: "notice", message: "Example notice toast"},
+    {id: 2, variant: 'error', message: "Example error toast"}
+  ]);
 
-  // React.useEffect(() => {
-  //   if (showToast){
-  //     setTimeout(() => setShowToast(false),5000)
-  //   }
-  // }, [showToast])
   return (
     <div className={styles.wrapper}>
       <header>
@@ -24,11 +24,13 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {showToast && (
+      {/* {showToast && (
         <Toast variant={variant} handleClose={(e) => setShowToast(false)}>
           {message}
         </Toast>
-      )}
+      )} */}
+
+      <ToastShelf toasts={toasts} setToasts={setToasts}/>
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
