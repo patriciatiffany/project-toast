@@ -37,7 +37,15 @@ function ToastPlayground() {
 
       <ToastShelf toasts={toasts} setToasts={setToasts} />
 
-      <div className={styles.controlsWrapper}>
+      <form
+        className={styles.controlsWrapper}
+        onSubmit={(e) => {
+          e.preventDefault();
+          setMessage("");
+          setVariant(VARIANT_OPTIONS[0]);
+          addToast({ message, variant });
+        }}
+      >
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -75,25 +83,16 @@ function ToastPlayground() {
                 {opt}
               </label>
             ))}
-            {/* TODO Other Variant radio buttons here */}
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button
-              onClick={(e) => {
-                setMessage('');
-                setVariant(VARIANT_OPTIONS[0])
-                addToast({ message, variant });
-              }}
-            >
-              Pop Toast!
-            </Button>
+            <Button>Pop Toast!</Button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
