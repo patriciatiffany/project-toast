@@ -9,6 +9,7 @@ function ToastProvider({children}) {
   useKeyHandler("Escape", () => setToasts([]));
 
   const addToast = ({ variant, message }) => {
+    // using this syntax with the setter function removes the dependency on toasts
     setToasts((oldToasts) => {
       const newToasts = [
         ...oldToasts,
