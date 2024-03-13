@@ -6,7 +6,9 @@ export const ToastContext = React.createContext();
 function ToastProvider({children}) {
   const [toasts, setToasts] = React.useState([]);
 
-  useKeyHandler("Escape", () => setToasts([]));
+  // Define escape handler so that it doesn't get regenerated when the component re-renders
+  const handleEscape = React.useCallback(() => setToasts([]), []);
+  useKeyHandler("Escape", handleEscape);
 
   const addToast = ({ variant, message }) => {
     // using this syntax with the setter function removes the dependency on toasts
