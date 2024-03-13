@@ -14,8 +14,14 @@ function ToastShelf() {
 
   const { toasts, removeToast } = React.useContext(ToastContext);
 
+  const wrapperAriaProps = {
+    role: "region",
+    "aria-live": "polite",
+    "aria-label": "Notification",
+  };
+
   return (
-    <ol className={styles.wrapper}>
+    <ol className={styles.wrapper} {...wrapperAriaProps}>
       {toasts.map(d => (
         <li className={styles.toastWrapper} key={d.id}>
           <Toast variant={d.variant} handleClose={() => removeToast(d.id)}>{d.message}</Toast>
