@@ -1,34 +1,30 @@
 import React from 'react';
+import useKeyHandler from '../../hooks/useKeyHandler';
 
 export const ToastContext = React.createContext();
 
 function ToastProvider({children}) {
   const [toasts, setToasts] = React.useState([]);
 
-  React.useEffect(() => {
-    const handleDismiss = (e) => {
-      if (e.key === "Escape") {
-        setToasts([]);
-      }
-    };
-    document.addEventListener("keyup", handleDismiss);
-    return () => {
-      document.removeEventListener("keyup", handleDismiss)
-    } // return the cleanup function, don't call it!
-  },[])
+  useKeyHandler("Escape", () => setToasts([]));
 
-  const values = React.useMemo(() => {
-    const addToast = ({ variant, message }) => {
+  const addToast = ({ variant, message }) => {
+    setToasts((oldToasts) => {
       const newToasts = [
-        ...toasts,
+        ...oldToasts,
         { id: crypto.randomUUID(), variant, message },
       ];
-      setToasts(newToasts);
-    };
-    const removeToast = (id) => {
-      const newToasts = toasts.filter((d) => d.id !== id);
-      setToasts(newToasts);
-    };
+      return newToasts;
+    });
+  };
+  const removeToast = (id) => {
+    setToasts((oldToasts) => {
+      const newToasts = oldToasts.filter((d) => d.id !== id);
+      return newToasts;
+    });
+  };
+
+  const values = React.useMemo(() => {
     return ({toasts, addToast, removeToast})},
   [toasts])
 
